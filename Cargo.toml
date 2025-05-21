@@ -1,0 +1,12 @@
+[package]
+name = "aerospace-window-switcher"
+version = "0.1.0"
+edition = "2021"
+
+[profile.release]
+opt-level = 3
+
+[dependencies]
+eframe = "0.31.1"
+egui = "0.31.1"
+fuzzy-matcher = "0.3.7"
