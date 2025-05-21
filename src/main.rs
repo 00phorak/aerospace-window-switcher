@@ -268,10 +268,6 @@ impl eframe::App for AerospaceWindowSwitcher {
             }
         });
     }
-
-    fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
-        // No longer needed
-    }
 }
 
 fn main() {

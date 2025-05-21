@@ -6,6 +6,14 @@ A simple, fast window switcher for the Aerospace window manager.
 
 This application provides a quick way to switch between windows in Aerospace. It displays a list of windows and allows you to search and select a window to focus.
 
+## Usage
+Put the following keybind into your aerospace config toml:
+```toml
+alt-space = 'exec-and-forget <path-to-binary>'
+```
+
+Change keybind as you see fit.
+
 ## Dependencies
 
 - Rust (stable toolchain)
