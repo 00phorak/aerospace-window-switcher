@@ -1,6 +1,6 @@
 # aerospace-window-switcher
 
-A simple, fast window switcher for the Aerospace window manager.
+A simple, <i>blazingly fast</i>™ window switcher for the Aerospace window manager.
 
 ## Description
 
