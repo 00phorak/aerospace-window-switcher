@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-and-release:
+    name: Build and Release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            artifact_name: aerospace-window-switcher-macos-amd64
+            extension: ''
+            target: x86_64-apple-darwin
+          - os: macos-latest
+            artifact_name: aerospace-window-switcher-macos-arm64
+            extension: ''
+            target: aarch64-apple-darwin
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Get package name
+        shell: bash
+        run: |
+          echo "PACKAGE_NAME=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')" >> $GITHUB_ENV
+
+      - name: Build binary
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Rename binary
+        shell: bash
+        run: |
+          mv target/${{ matrix.target }}/release/${{ env.PACKAGE_NAME }} ${{ matrix.artifact_name }}${{ matrix.extension }}
+
+      - name: Upload binary to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ matrix.artifact_name }}${{ matrix.extension }}
+          asset_name: ${{ matrix.artifact_name }}${{ matrix.extension }}
+          tag: ${{ github.ref }}
+          overwrite: true
